@@ -1,0 +1,63 @@
+@Possari.WebApi_HostAddress = http://localhost:5043
+@ChildId = 08a7cb68-6e02-4c25-951e-4572f996efaa
+@RewardId = 2a788f76-3f6c-478d-84c0-d0ac5e7b5b5c
+@PendingRewardId = f95dcd26-76e2-4217-b9aa-704bf0112692
+
+GET {{Possari.WebApi_HostAddress}}/children
+Accept: application/json
+
+###
+
+GET {{Possari.WebApi_HostAddress}}/children/{{ChildId}}
+Accept: application/json
+
+###
+
+DELETE {{Possari.WebApi_HostAddress}}/children/{{ChildId}}
+Accept: application/json
+
+###
+
+POST {{Possari.WebApi_HostAddress}}/children
+Accept: application/json
+Content-Type: application/json
+
+{
+  "name": "Foo6"
+}
+
+###
+
+PATCH {{Possari.WebApi_HostAddress}}/children/{{ChildId}}
+Accept: application/json
+Content-Type: application/json
+
+{
+  "name": "Foo3"
+}
+
+###
+
+POST {{Possari.WebApi_HostAddress}}/children/{{ChildId}}/tokens/award
+Accept: application/json
+Content-Type: application/json
+
+{
+  "tokenAmount": 5
+}
+
+###
+
+POST {{Possari.WebApi_HostAddress}}/children/{{ChildId}}/rewards/redeem
+Accept: application/json
+Content-Type: application/json
+
+{
+  "rewardId": "{{RewardId}}"
+}
+
+###
+
+PATCH {{Possari.WebApi_HostAddress}}/children/{{ChildId}}/pending-rewards/{{PendingRewardId}}/receive
+Accept: application/json
+Content-Type: application/json

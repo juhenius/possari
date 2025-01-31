@@ -1,0 +1,39 @@
+@Possari.WebApi_HostAddress = http://localhost:5043
+@RewardId = 2a788f76-3f6c-478d-84c0-d0ac5e7b5b5c
+
+GET {{Possari.WebApi_HostAddress}}/rewards
+Accept: application/json
+
+###
+
+GET {{Possari.WebApi_HostAddress}}/rewards/{{RewardId}}
+Accept: application/json
+
+###
+
+DELETE {{Possari.WebApi_HostAddress}}/rewards/{{RewardId}}
+Accept: application/json
+
+###
+
+POST {{Possari.WebApi_HostAddress}}/rewards
+Accept: application/json
+Content-Type: application/json
+
+{
+  "name": "A Reward",
+  "tokenCost": 2
+}
+
+###
+
+PATCH {{Possari.WebApi_HostAddress}}/rewards/{{RewardId}}
+Accept: application/json
+Content-Type: application/json
+
+{
+  "name": "The Reward",
+  "tokenCost": 2
+}
+
+###

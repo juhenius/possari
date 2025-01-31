@@ -1,0 +1,37 @@
+@Possari.WebApi_HostAddress = http://localhost:5043
+@ParentId = cef5c966-9266-4b0f-8f3e-5e683424a729
+
+GET {{Possari.WebApi_HostAddress}}/parents
+Accept: application/json
+
+###
+
+GET {{Possari.WebApi_HostAddress}}/parents/{{ParentId}}
+Accept: application/json
+
+###
+
+DELETE {{Possari.WebApi_HostAddress}}/parents/{{ParentId}}
+Accept: application/json
+
+###
+
+POST {{Possari.WebApi_HostAddress}}/parents
+Accept: application/json
+Content-Type: application/json
+
+{
+  "name": "A Parent"
+}
+
+###
+
+PATCH {{Possari.WebApi_HostAddress}}/parents/{{ParentId}}
+Accept: application/json
+Content-Type: application/json
+
+{
+  "name": "The Parent"
+}
+
+###
