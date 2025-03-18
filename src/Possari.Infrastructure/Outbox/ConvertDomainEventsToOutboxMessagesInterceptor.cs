@@ -8,27 +8,24 @@ namespace Possari.Infrastructure.Outbox;
 public sealed class ConvertDomainEventsToOutboxMessagesInterceptor : SaveChangesInterceptor
 {
   public override ValueTask<InterceptionResult<int>> SavingChangesAsync(
-  DbContextEventData eventData,
-  InterceptionResult<int> result,
-  CancellationToken cancellationToken = default
-)
+    DbContextEventData eventData,
+    InterceptionResult<int> result,
+    CancellationToken cancellationToken = default
+  )
   {
-    DbContext? dbContext = eventData.Context;
-
-    if (dbContext is null)
+    if (eventData.Context is not null)
     {
-      return base.SavingChangesAsync(eventData, result, cancellationToken);
+      CreateOutboxMessagesFromDomainEvents(eventData.Context);
     }
 
-    var outboxMessages = dbContext.ChangeTracker
+    return base.SavingChangesAsync(eventData, result, cancellationToken);
+  }
+
+  private static void CreateOutboxMessagesFromDomainEvents(DbContext context)
+  {
+    context.Set<OutboxMessage>().AddRange(context.ChangeTracker
       .Entries<AggregateRoot>()
-      .Select(x => x.Entity)
-      .SelectMany(x =>
-      {
-        var domainEvents = x.DomainEvents;
-        x.ClearDomainEvents();
-        return domainEvents;
-      })
+      .SelectMany(x => x.Entity.PopDomainEvents())
       .Select(domainEvent => new OutboxMessage
       {
         Id = Guid.NewGuid(),
@@ -38,11 +35,6 @@ public sealed class ConvertDomainEventsToOutboxMessagesInterceptor : SaveChanges
         {
           TypeNameHandling = TypeNameHandling.All
         }),
-      })
-      .ToList();
-
-    dbContext.Set<OutboxMessage>().AddRange(outboxMessages);
-
-    return base.SavingChangesAsync(eventData, result, cancellationToken);
+      }).ToList());
   }
 }

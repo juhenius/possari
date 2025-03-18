@@ -12,9 +12,16 @@ public abstract class AggregateRoot : Entity
 
   private readonly List<DomainEvent> _domainEvents = [];
 
-  public IReadOnlyCollection<DomainEvent> DomainEvents => [.. _domainEvents];
+  public IReadOnlyCollection<DomainEvent> DomainEvents => _domainEvents.AsReadOnly();
 
   public void ClearDomainEvents() => _domainEvents.Clear();
+
+  public IReadOnlyCollection<DomainEvent> PopDomainEvents()
+  {
+    List<DomainEvent> result = [.. _domainEvents];
+    _domainEvents.Clear();
+    return result.AsReadOnly();
+  }
 
   protected void RaiseDomainEvent(DomainEvent domainEvent) => _domainEvents.Add(domainEvent);
 }
