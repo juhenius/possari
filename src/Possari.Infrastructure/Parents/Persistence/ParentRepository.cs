@@ -33,8 +33,6 @@ public class ParentRepository(PossariDbContext dbContext) : IParentRepository
 
   public Task UpdateParentAsync(Parent parent)
   {
-    _dbContext.Parents.Update(parent);
-
     return Task.CompletedTask;
   }
 }

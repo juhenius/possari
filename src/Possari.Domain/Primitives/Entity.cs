@@ -12,6 +12,12 @@ public abstract class Entity : IEquatable<Entity>
   }
 
   public Guid Id { get; private init; }
+  public int Version { get; private set; } = 1;
+
+  public void IncrementVersion()
+  {
+    Version++;
+  }
 
   public static bool operator ==(Entity? a, Entity? b)
   {

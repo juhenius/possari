@@ -11,8 +11,11 @@ public class RewardConfigurations : IEntityTypeConfiguration<Reward>
     builder.HasKey(g => g.Id);
 
     builder.Property(g => g.Id)
-        .ValueGeneratedNever();
+      .ValueGeneratedNever();
 
     builder.Property(g => g.Name);
+
+    builder.Property(g => g.Version)
+      .IsConcurrencyToken();
   }
 }

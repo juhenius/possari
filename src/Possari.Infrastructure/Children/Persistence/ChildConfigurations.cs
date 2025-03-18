@@ -15,13 +15,25 @@ public class ChildConfigurations : IEntityTypeConfiguration<Child>
 
     builder.Property(g => g.Name);
 
+    builder.Property(g => g.Version)
+      .IsConcurrencyToken();
+
     builder.OwnsMany(c => c.PendingRewards, pb =>
     {
+      pb.ToTable("PendingRewards");
+
       pb.HasKey(r => r.Id);
+
       pb.Property(r => r.Id)
         .ValueGeneratedNever();
+
       pb.WithOwner().HasForeignKey(r => r.ChildId);
-      pb.Property(r => r.RewardName).IsRequired();
+
+      pb.Property(r => r.RewardName)
+        .IsRequired();
+
+      pb.Property(g => g.Version)
+        .IsConcurrencyToken();
     });
   }
 }

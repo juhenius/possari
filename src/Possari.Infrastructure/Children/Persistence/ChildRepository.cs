@@ -37,9 +37,6 @@ public class ChildRepository(PossariDbContext dbContext) : IChildRepository
 
   public Task UpdateChildAsync(Child child)
   {
-    // not needed
-    // _dbContext.Children.Update(child);
-
     return Task.CompletedTask;
   }
 }

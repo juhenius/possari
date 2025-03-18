@@ -11,7 +11,7 @@ using Possari.Infrastructure.Common.Persistence;
 namespace Possari.Infrastructure.Migrations
 {
     [DbContext(typeof(PossariDbContext))]
-    [Migration("20250131173601_InitialCreate")]
+    [Migration("20250318170547_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -32,6 +32,10 @@ namespace Possari.Infrastructure.Migrations
                     b.Property<int>("TokenBalance")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("Version")
+                        .IsConcurrencyToken()
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
 
                     b.ToTable("Children");
@@ -45,6 +49,10 @@ namespace Possari.Infrastructure.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("Version")
+                        .IsConcurrencyToken()
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -61,6 +69,10 @@ namespace Possari.Infrastructure.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<int>("TokenCost")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Version")
+                        .IsConcurrencyToken()
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
@@ -110,11 +122,15 @@ namespace Possari.Infrastructure.Migrations
                                 .IsRequired()
                                 .HasColumnType("TEXT");
 
+                            b1.Property<int>("Version")
+                                .IsConcurrencyToken()
+                                .HasColumnType("INTEGER");
+
                             b1.HasKey("Id");
 
                             b1.HasIndex("ChildId");
 
-                            b1.ToTable("PendingReward");
+                            b1.ToTable("PendingRewards", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("ChildId");

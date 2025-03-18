@@ -20,12 +20,15 @@ public static class DependencyInjection
 
   public static IServiceCollection AddPersistence(this IServiceCollection services)
   {
+    services.AddSingleton<VersionIncrementInterceptor>();
     services.AddSingleton<ConvertDomainEventsToOutboxMessagesInterceptor>();
     services.AddDbContext<PossariDbContext>((sp, op) =>
     {
-      var interceptor = sp.GetRequiredService<ConvertDomainEventsToOutboxMessagesInterceptor>();
       op.UseSqlite("Data Source = Possari.db")
-        .AddInterceptors(interceptor);
+        .AddInterceptors([
+          sp.GetRequiredService<VersionIncrementInterceptor>(),
+          sp.GetRequiredService<ConvertDomainEventsToOutboxMessagesInterceptor>(),
+        ]);
     });
 
     services.AddScoped<IChildRepository, ChildRepository>();

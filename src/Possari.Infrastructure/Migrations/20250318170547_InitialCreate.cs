@@ -17,7 +17,8 @@ namespace Possari.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
-                    TokenBalance = table.Column<int>(type: "INTEGER", nullable: false)
+                    TokenBalance = table.Column<int>(type: "INTEGER", nullable: false),
+                    Version = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -45,7 +46,8 @@ namespace Possari.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Name = table.Column<string>(type: "TEXT", nullable: false)
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Version = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -58,7 +60,8 @@ namespace Possari.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
-                    TokenCost = table.Column<int>(type: "INTEGER", nullable: false)
+                    TokenCost = table.Column<int>(type: "INTEGER", nullable: false),
+                    Version = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -66,18 +69,19 @@ namespace Possari.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PendingReward",
+                name: "PendingRewards",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
                     ChildId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    RewardName = table.Column<string>(type: "TEXT", nullable: false)
+                    RewardName = table.Column<string>(type: "TEXT", nullable: false),
+                    Version = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PendingReward", x => x.Id);
+                    table.PrimaryKey("PK_PendingRewards", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PendingReward_Children_ChildId",
+                        name: "FK_PendingRewards_Children_ChildId",
                         column: x => x.ChildId,
                         principalTable: "Children",
                         principalColumn: "Id",
@@ -85,8 +89,8 @@ namespace Possari.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_PendingReward_ChildId",
-                table: "PendingReward",
+                name: "IX_PendingRewards_ChildId",
+                table: "PendingRewards",
                 column: "ChildId");
         }
 
@@ -100,7 +104,7 @@ namespace Possari.Infrastructure.Migrations
                 name: "Parents");
 
             migrationBuilder.DropTable(
-                name: "PendingReward");
+                name: "PendingRewards");
 
             migrationBuilder.DropTable(
                 name: "Rewards");

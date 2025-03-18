@@ -33,8 +33,6 @@ public class RewardRepository(PossariDbContext dbContext) : IRewardRepository
 
   public Task UpdateRewardAsync(Reward reward)
   {
-    _dbContext.Rewards.Update(reward);
-
     return Task.CompletedTask;
   }
 }
