@@ -6,6 +6,7 @@ using Possari.Application.Parents.Commands.UpdateParent;
 using Possari.Application.Parents.Queries.GetParent;
 using Possari.Application.Parents.Queries.ListParents;
 using Possari.Contracts.Parents;
+using Possari.Domain.Parents;
 using Possari.WebApi.Common;
 
 namespace Possari.WebApi.Controllers;
@@ -16,39 +17,45 @@ public class ParentsController(ISender mediator) : ApiController
   private readonly ISender _mediator = mediator;
 
   [HttpPost]
-  public async Task<IActionResult> CreateParent(
+  [Produces("application/json")]
+  [ProducesResponseType(typeof(ParentResponse), StatusCodes.Status201Created)]
+  [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+  public async Task<ActionResult<ParentResponse>> CreateParent(
     CreateParentRequest request)
   {
     var command = new CreateParentCommand(request.Name);
 
     var createParentResult = await _mediator.Send(command);
 
-    return createParentResult.Match(
+    return createParentResult.Match<Parent, ParentResponse>(
       parent => CreatedAtAction(
         nameof(GetParent),
         new { ParentId = parent.Id },
-        new ParentResponse(parent.Id, parent.Name)),
+        ToParentResponse(parent)),
       (_) => Problem());
   }
 
   [HttpPatch("{parentId:guid}")]
-  public async Task<IActionResult> UpdateParent(
-      Guid parentId,
-      UpdateParentRequest request)
+  [Produces("application/json")]
+  [ProducesResponseType(typeof(ParentResponse), StatusCodes.Status200OK)]
+  [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+  public async Task<ActionResult<ParentResponse>> UpdateParent(
+    Guid parentId,
+    UpdateParentRequest request)
   {
     var command = new UpdateParentCommand(parentId, request.Name);
 
     var updateParentResult = await _mediator.Send(command);
 
-    return updateParentResult.Match(
-      parent => CreatedAtAction(
-        nameof(GetParent),
-        new { ParentId = parent.Id },
-        new ParentResponse(parent.Id, parent.Name)),
+    return updateParentResult.Match<Parent, ParentResponse>(
+      parent => Ok(ToParentResponse(parent)),
       (_) => Problem());
   }
 
   [HttpDelete("{parentId:guid}")]
+  [Produces("application/json")]
+  [ProducesResponseType(StatusCodes.Status204NoContent)]
+  [ProducesResponseType(StatusCodes.Status500InternalServerError)]
   public async Task<IActionResult> DeleteParent(Guid parentId)
   {
     var command = new DeleteParentCommand(parentId);
@@ -61,26 +68,37 @@ public class ParentsController(ISender mediator) : ApiController
   }
 
   [HttpGet]
-  public async Task<IActionResult> ListParents()
+  [Produces("application/json")]
+  [ProducesResponseType(typeof(List<ParentResponse>), StatusCodes.Status200OK)]
+  [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+  public async Task<ActionResult<List<ParentResponse>>> ListParents()
   {
     var command = new ListParentsQuery();
 
     var listParentsResult = await _mediator.Send(command);
 
-    return listParentsResult.Match(
-      parents => Ok(parents.ConvertAll(parent => new ParentResponse(parent.Id, parent.Name))),
+    return listParentsResult.Match<List<Parent>, List<ParentResponse>>(
+      parents => Ok(parents.ConvertAll(ToParentResponse)),
       (_) => Problem());
   }
 
   [HttpGet("{parentId:guid}")]
-  public async Task<IActionResult> GetParent(Guid parentId)
+  [Produces("application/json")]
+  [ProducesResponseType(typeof(ParentResponse), StatusCodes.Status200OK)]
+  [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+  public async Task<ActionResult<ParentResponse>> GetParent(Guid parentId)
   {
     var command = new GetParentQuery(parentId);
 
     var getParentResult = await _mediator.Send(command);
 
-    return getParentResult.Match(
-      parent => Ok(new ParentResponse(parent.Id, parent.Name)),
+    return getParentResult.Match<Parent, ParentResponse>(
+      parent => Ok(ToParentResponse(parent)),
       (_) => Problem());
+  }
+
+  private static ParentResponse ToParentResponse(Parent parent)
+  {
+    return new ParentResponse(parent.Id, parent.Name);
   }
 }

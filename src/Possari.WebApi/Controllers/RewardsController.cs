@@ -6,6 +6,7 @@ using Possari.Application.Rewards.Commands.UpdateReward;
 using Possari.Application.Rewards.Queries.GetReward;
 using Possari.Application.Rewards.Queries.ListRewards;
 using Possari.Contracts.Rewards;
+using Possari.Domain.Rewards;
 using Possari.WebApi.Common;
 
 namespace Possari.WebApi.Controllers;
@@ -16,39 +17,45 @@ public class RewardsController(ISender mediator) : ApiController
   private readonly ISender _mediator = mediator;
 
   [HttpPost]
-  public async Task<IActionResult> CreateReward(
+  [Produces("application/json")]
+  [ProducesResponseType(typeof(RewardResponse), StatusCodes.Status201Created)]
+  [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+  public async Task<ActionResult<RewardResponse>> CreateReward(
     CreateRewardRequest request)
   {
     var command = new CreateRewardCommand(request.Name, request.TokenCost);
 
     var createRewardResult = await _mediator.Send(command);
 
-    return createRewardResult.Match(
+    return createRewardResult.Match<Reward, RewardResponse>(
       reward => CreatedAtAction(
         nameof(GetReward),
         new { RewardId = reward.Id },
-        new RewardResponse(reward.Id, reward.Name, reward.TokenCost)),
+        ToRewardResponse(reward)),
       (_) => Problem());
   }
 
   [HttpPatch("{rewardId:guid}")]
-  public async Task<IActionResult> UpdateReward(
-      Guid rewardId,
-      UpdateRewardRequest request)
+  [Produces("application/json")]
+  [ProducesResponseType(typeof(RewardResponse), StatusCodes.Status200OK)]
+  [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+  public async Task<ActionResult<RewardResponse>> UpdateReward(
+    Guid rewardId,
+    UpdateRewardRequest request)
   {
     var command = new UpdateRewardCommand(rewardId, request.Name, request.TokenCost);
 
     var updateRewardResult = await _mediator.Send(command);
 
-    return updateRewardResult.Match(
-      reward => CreatedAtAction(
-        nameof(GetReward),
-        new { RewardId = reward.Id },
-        new RewardResponse(reward.Id, reward.Name, reward.TokenCost)),
+    return updateRewardResult.Match<Reward, RewardResponse>(
+      reward => Ok(ToRewardResponse(reward)),
       (_) => Problem());
   }
 
   [HttpDelete("{rewardId:guid}")]
+  [Produces("application/json")]
+  [ProducesResponseType(StatusCodes.Status204NoContent)]
+  [ProducesResponseType(StatusCodes.Status500InternalServerError)]
   public async Task<IActionResult> DeleteReward(Guid rewardId)
   {
     var command = new DeleteRewardCommand(rewardId);
@@ -61,26 +68,37 @@ public class RewardsController(ISender mediator) : ApiController
   }
 
   [HttpGet]
-  public async Task<IActionResult> ListRewards()
+  [Produces("application/json")]
+  [ProducesResponseType(typeof(List<RewardResponse>), StatusCodes.Status200OK)]
+  [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+  public async Task<ActionResult<List<RewardResponse>>> ListRewards()
   {
     var command = new ListRewardsQuery();
 
     var listRewardsResult = await _mediator.Send(command);
 
-    return listRewardsResult.Match(
-      rewards => Ok(rewards.ConvertAll(reward => new RewardResponse(reward.Id, reward.Name, reward.TokenCost))),
+    return listRewardsResult.Match<List<Reward>, List<RewardResponse>>(
+      rewards => Ok(rewards.ConvertAll(ToRewardResponse)),
       (_) => Problem());
   }
 
   [HttpGet("{rewardId:guid}")]
-  public async Task<IActionResult> GetReward(Guid rewardId)
+  [Produces("application/json")]
+  [ProducesResponseType(typeof(RewardResponse), StatusCodes.Status200OK)]
+  [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+  public async Task<ActionResult<RewardResponse>> GetReward(Guid rewardId)
   {
     var command = new GetRewardQuery(rewardId);
 
     var getRewardResult = await _mediator.Send(command);
 
-    return getRewardResult.Match(
-      reward => Ok(new RewardResponse(reward.Id, reward.Name, reward.TokenCost)),
+    return getRewardResult.Match<Reward, RewardResponse>(
+      reward => Ok(ToRewardResponse(reward)),
       (_) => Problem());
+  }
+
+  private static RewardResponse ToRewardResponse(Reward reward)
+  {
+    return new RewardResponse(reward.Id, reward.Name, reward.TokenCost);
   }
 }
