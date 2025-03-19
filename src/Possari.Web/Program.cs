@@ -1,5 +1,6 @@
 using Possari.Application;
 using Possari.Infrastructure;
+using Possari.Presentation;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,7 +12,8 @@ builder.Services.AddProblemDetails();
 
 builder.Services
     .AddApplication()
-    .AddInfrastructure();
+    .AddInfrastructure()
+    .AddPresentation();
 
 var app = builder.Build();
 app.UseExceptionHandler();
@@ -24,6 +26,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
-app.MapControllers();
+app.MapPresentation();
 
 app.Run();

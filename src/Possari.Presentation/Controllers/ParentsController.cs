@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Possari.Application.Parents.Commands.CreateParent;
 using Possari.Application.Parents.Commands.DeleteParent;
@@ -7,9 +8,9 @@ using Possari.Application.Parents.Queries.GetParent;
 using Possari.Application.Parents.Queries.ListParents;
 using Possari.Contracts.Parents;
 using Possari.Domain.Parents;
-using Possari.WebApi.Common;
+using Possari.Presentation.Common;
 
-namespace Possari.WebApi.Controllers;
+namespace Possari.Presentation.Controllers;
 
 [Route("parents")]
 public class ParentsController(ISender mediator) : ApiController

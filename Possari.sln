@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Possari.Application", "src\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Possari.Infrastructure", "src\Possari.Infrastructure\Possari.Infrastructure.csproj", "{C8548B7E-BACF-4B20-B6FC-012AC90C4D27}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Possari.WebApi", "src\Possari.WebApi\Possari.WebApi.csproj", "{82476185-FBF6-45D3-8A7D-B32877854F0F}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Possari.Contracts", "src\Possari.Contracts\Possari.Contracts.csproj", "{82E64D84-1A16-43F1-85EA-F0C363E39EC0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{DCDAB115-A5BD-4661-A826-75B7E6260D6B}"
@@ -18,6 +16,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Possari.Domain.Tests", "tests\Possari.Domain.Tests\Possari.Domain.Tests.csproj", "{32D7A581-1D6B-456F-96CF-10DABFBC5AAA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Possari.Application.Tests", "tests\Possari.Application.Tests\Possari.Application.Tests.csproj", "{8FB4C367-C597-4BD4-8A27-25DCAAEE16A6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{CCFE1EA0-A194-4451-9DC5-3BEBB0817482}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Possari.Web", "src\Possari.Web\Possari.Web.csproj", "{BE4AA28C-3B36-43EF-B77B-41B04A7596D7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Possari.Presentation", "src\Possari.Presentation\Possari.Presentation.csproj", "{FD1B792E-C4C0-479B-9942-369D3C2BDC38}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -40,10 +44,6 @@ Global
 		{C8548B7E-BACF-4B20-B6FC-012AC90C4D27}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C8548B7E-BACF-4B20-B6FC-012AC90C4D27}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C8548B7E-BACF-4B20-B6FC-012AC90C4D27}.Release|Any CPU.Build.0 = Release|Any CPU
-		{82476185-FBF6-45D3-8A7D-B32877854F0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{82476185-FBF6-45D3-8A7D-B32877854F0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{82476185-FBF6-45D3-8A7D-B32877854F0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{82476185-FBF6-45D3-8A7D-B32877854F0F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{82E64D84-1A16-43F1-85EA-F0C363E39EC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{82E64D84-1A16-43F1-85EA-F0C363E39EC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{82E64D84-1A16-43F1-85EA-F0C363E39EC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -56,9 +56,19 @@ Global
 		{8FB4C367-C597-4BD4-8A27-25DCAAEE16A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8FB4C367-C597-4BD4-8A27-25DCAAEE16A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8FB4C367-C597-4BD4-8A27-25DCAAEE16A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE4AA28C-3B36-43EF-B77B-41B04A7596D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE4AA28C-3B36-43EF-B77B-41B04A7596D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE4AA28C-3B36-43EF-B77B-41B04A7596D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE4AA28C-3B36-43EF-B77B-41B04A7596D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD1B792E-C4C0-479B-9942-369D3C2BDC38}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD1B792E-C4C0-479B-9942-369D3C2BDC38}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD1B792E-C4C0-479B-9942-369D3C2BDC38}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD1B792E-C4C0-479B-9942-369D3C2BDC38}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{32D7A581-1D6B-456F-96CF-10DABFBC5AAA} = {DCDAB115-A5BD-4661-A826-75B7E6260D6B}
 		{8FB4C367-C597-4BD4-8A27-25DCAAEE16A6} = {DCDAB115-A5BD-4661-A826-75B7E6260D6B}
+		{BE4AA28C-3B36-43EF-B77B-41B04A7596D7} = {CCFE1EA0-A194-4451-9DC5-3BEBB0817482}
+		{FD1B792E-C4C0-479B-9942-369D3C2BDC38} = {CCFE1EA0-A194-4451-9DC5-3BEBB0817482}
 	EndGlobalSection
 EndGlobal

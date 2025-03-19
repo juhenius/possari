@@ -8,17 +8,13 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.0">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
     <PackageReference Include="Scalar.AspNetCore" Version="2.0.7" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Possari.Application\Possari.Application.csproj" />
     <ProjectReference Include="..\Possari.Infrastructure\Possari.Infrastructure.csproj" />
-    <ProjectReference Include="..\Possari.Contracts\Possari.Contracts.csproj" />
+    <ProjectReference Include="..\Possari.Presentation\Possari.Presentation.csproj" />
   </ItemGroup>
 
 </Project>

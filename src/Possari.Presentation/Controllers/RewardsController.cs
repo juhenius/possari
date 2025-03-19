@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Possari.Application.Rewards.Commands.CreateReward;
 using Possari.Application.Rewards.Commands.DeleteReward;
@@ -7,9 +8,9 @@ using Possari.Application.Rewards.Queries.GetReward;
 using Possari.Application.Rewards.Queries.ListRewards;
 using Possari.Contracts.Rewards;
 using Possari.Domain.Rewards;
-using Possari.WebApi.Common;
+using Possari.Presentation.Common;
 
-namespace Possari.WebApi.Controllers;
+namespace Possari.Presentation.Controllers;
 
 [Route("rewards")]
 public class RewardsController(ISender mediator) : ApiController

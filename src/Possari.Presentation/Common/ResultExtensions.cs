@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Possari.Domain.Primitives;
 
-namespace Possari.WebApi.Common;
+namespace Possari.Presentation.Common;
 
 public static class ResultExtensions
 {

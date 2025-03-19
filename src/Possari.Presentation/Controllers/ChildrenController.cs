@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Possari.Application.Children.Commands.AwardTokens;
 using Possari.Application.Children.Commands.CreateChild;
@@ -10,9 +11,9 @@ using Possari.Application.Children.Queries.GetChild;
 using Possari.Application.Children.Queries.ListChildren;
 using Possari.Contracts.Children;
 using Possari.Domain.Children;
-using Possari.WebApi.Common;
+using Possari.Presentation.Common;
 
-namespace Possari.WebApi.Controllers;
+namespace Possari.Presentation.Controllers;
 
 [Route("children")]
 public class ChildrenController(ISender mediator) : ApiController

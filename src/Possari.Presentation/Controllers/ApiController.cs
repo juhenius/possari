@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace Possari.WebApi.Controllers;
+namespace Possari.Presentation.Controllers;
 
 [ApiController]
 public class ApiController : ControllerBase
