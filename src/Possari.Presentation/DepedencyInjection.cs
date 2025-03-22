@@ -1,6 +1,7 @@
 using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using Possari.Presentation.Endpoints;
 
 namespace Possari.Presentation;
 
@@ -9,8 +10,6 @@ public static class DependencyInjection
   public static IServiceCollection AddPresentation(this IServiceCollection services)
   {
     var assembly = Assembly.GetExecutingAssembly();
-
-    services.AddControllers().AddApplicationPart(assembly);
 
     services.AddMediatR(options =>
     {
@@ -22,7 +21,7 @@ public static class DependencyInjection
 
   public static WebApplication MapPresentation(this WebApplication app)
   {
-    app.MapControllers();
+    app.MapApiEndpoints();
     return app;
   }
 }
