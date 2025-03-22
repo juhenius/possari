@@ -23,9 +23,7 @@ public static class ListChildrenEndpoint
 
       var result = await mediator.Send(command, token);
 
-      return result.Match(
-        children => TypedResults.Ok(children.MapToResponse()),
-        (_) => Results.Problem());
+      return result.ToHttpResult(cs => TypedResults.Ok(cs.MapToResponse()));
     })
       .WithName(Name)
       .Produces<ChildrenResponse>(StatusCodes.Status200OK);

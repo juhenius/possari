@@ -24,9 +24,7 @@ public static class AwardTokensEndpoint
 
       var result = await mediator.Send(command, token);
 
-      return result.Match(
-        child => TypedResults.Ok(),
-        (_) => Results.Problem());
+      return result.ToHttpResult(Results.NoContent);
     })
       .WithName(Name)
       .Produces<ChildResponse>(StatusCodes.Status200OK)

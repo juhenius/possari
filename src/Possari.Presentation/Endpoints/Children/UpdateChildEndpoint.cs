@@ -25,9 +25,7 @@ public static class UpdateChildEndpoint
 
       var result = await mediator.Send(command, token);
 
-      return result.Match(
-        child => TypedResults.Ok(child.MapToResponse()),
-        (_) => Results.Problem());
+      return result.ToHttpResult(c => TypedResults.Ok(c.MapToResponse()));
     })
       .WithName(Name)
       .Produces<ChildResponse>(StatusCodes.Status200OK)

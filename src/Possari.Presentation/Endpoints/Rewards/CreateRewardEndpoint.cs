@@ -24,12 +24,11 @@ public static class CreateRewardEndpoint
 
       var result = await mediator.Send(command, token);
 
-      return result.Match(
-        reward => TypedResults.CreatedAtRoute(
-          reward.MapToResponse(),
+      return result.ToHttpResult(
+        r => TypedResults.CreatedAtRoute(
+          r.MapToResponse(),
           GetRewardEndpoint.Name,
-          new { RewardId = reward.Id }),
-        (_) => Results.Problem());
+          new { RewardId = r.Id }));
     })
       .WithName(Name)
       .Produces<RewardResponse>(StatusCodes.Status200OK)

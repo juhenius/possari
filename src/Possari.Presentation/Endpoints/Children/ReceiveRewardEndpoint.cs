@@ -24,9 +24,7 @@ public static class ReceiveRewardEndpoint
 
       var result = await mediator.Send(command, token);
 
-      return result.Match(
-        child => TypedResults.Ok(),
-        (_) => Results.Problem());
+      return result.ToHttpResult(Results.NoContent);
     })
       .WithName(Name)
       .Produces<ChildResponse>(StatusCodes.Status200OK)

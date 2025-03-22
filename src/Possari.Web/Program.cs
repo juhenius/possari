@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http.Features;
 using Possari.Application;
 using Possari.Infrastructure;
 using Possari.Presentation;
@@ -8,7 +9,17 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddOpenApi();
-builder.Services.AddProblemDetails();
+builder.Services.AddProblemDetails(options =>
+{
+  options.CustomizeProblemDetails = context =>
+  {
+    context.ProblemDetails.Instance = $"{context.HttpContext.Request.Method} {context.HttpContext.Request.Path}";
+    context.ProblemDetails.Extensions.TryAdd("requestId", context.HttpContext.TraceIdentifier);
+
+    var activity = context.HttpContext.Features.Get<IHttpActivityFeature>()?.Activity;
+    context.ProblemDetails.Extensions.TryAdd("traceId", activity?.Id);
+  };
+});
 
 builder.Services
     .AddApplication()
@@ -27,5 +38,6 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapPresentation();
+app.UseStatusCodePages();
 
 app.Run();

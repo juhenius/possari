@@ -24,12 +24,11 @@ public static class CreateChildEndpoint
 
       var result = await mediator.Send(command, token);
 
-      return result.Match(
-        child => TypedResults.CreatedAtRoute(
-          child.MapToResponse(),
+      return result.ToHttpResult(
+        c => TypedResults.CreatedAtRoute(
+          c.MapToResponse(),
           GetChildEndpoint.Name,
-          new { ChildId = child.Id }),
-        (_) => Results.Problem());
+          new { ChildId = c.Id }));
     })
       .WithName(Name)
       .Produces<ChildResponse>(StatusCodes.Status200OK)

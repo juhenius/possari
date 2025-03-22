@@ -24,12 +24,11 @@ public static class CreateParentEndpoint
 
       var result = await mediator.Send(command, token);
 
-      return result.Match(
-        parent => TypedResults.CreatedAtRoute(
-          parent.MapToResponse(),
+      return result.ToHttpResult(
+        p => TypedResults.CreatedAtRoute(
+          p.MapToResponse(),
           GetParentEndpoint.Name,
-          new { ParentId = parent.Id }),
-        (_) => Results.Problem());
+          new { ParentId = p.Id }));
     })
       .WithName(Name)
       .Produces<ParentResponse>(StatusCodes.Status200OK)

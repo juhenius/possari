@@ -4,6 +4,6 @@ namespace Possari.Domain.Parents;
 
 public static class ParentErrors
 {
-  public static Error NotFound(Guid id) => new("Parents.NotFound", $"Parent with id = '{id}' not found");
-  public static Error NameNullOrEmpty => new("Parents.NameNullOrEmpty", "Parent name cannot be empty");
+  public static Error NotFound(Guid id) => Error.NotFound("Parents.NotFound", $"Parent with id = '{id}' not found");
+  public static Error NameNullOrEmpty => Error.Validation("Parents.NameNullOrEmpty", "Parent name cannot be empty");
 }

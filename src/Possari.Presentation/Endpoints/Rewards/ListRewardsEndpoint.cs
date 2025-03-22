@@ -23,9 +23,7 @@ public static class ListRewardsEndpoint
 
       var result = await mediator.Send(command, token);
 
-      return result.Match(
-        rewards => TypedResults.Ok(rewards.MapToResponse()),
-        (_) => Results.Problem());
+      return result.ToHttpResult(rs => TypedResults.Ok(rs.MapToResponse()));
     })
       .WithName(Name)
       .Produces<RewardsResponse>(StatusCodes.Status200OK);

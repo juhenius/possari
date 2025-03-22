@@ -23,9 +23,7 @@ public static class DeleteParentEndpoint
 
       var result = await mediator.Send(command, token);
 
-      return result.Match(
-        () => TypedResults.NoContent(),
-        (_) => Results.Problem());
+      return result.ToHttpResult(Results.NoContent);
     })
       .WithName(Name)
       .Produces<ParentResponse>(StatusCodes.Status204NoContent)

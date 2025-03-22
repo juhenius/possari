@@ -23,9 +23,7 @@ public static class ListParentsEndpoint
 
       var result = await mediator.Send(command, token);
 
-      return result.Match(
-        parents => TypedResults.Ok(parents.MapToResponse()),
-        (_) => Results.Problem());
+      return result.ToHttpResult(ps => TypedResults.Ok(ps.MapToResponse()));
     })
       .WithName(Name)
       .Produces<ParentsResponse>(StatusCodes.Status200OK);
