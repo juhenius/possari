@@ -1,22 +1,22 @@
-@Possari.Web_HostAddress = http://localhost:5043
+@Possari.WebApi_HostAddress = http://localhost:5043
 @ParentId = a2852759-9ae0-4c36-aa4d-06ad03a3e81e
 
-GET {{Possari.Web_HostAddress}}/parents
+GET {{Possari.WebApi_HostAddress}}/parents
 Accept: application/json
 
 ###
 
-GET {{Possari.Web_HostAddress}}/parents/{{ParentId}}
+GET {{Possari.WebApi_HostAddress}}/parents/{{ParentId}}
 Accept: application/json
 
 ###
 
-DELETE {{Possari.Web_HostAddress}}/parents/{{ParentId}}
+DELETE {{Possari.WebApi_HostAddress}}/parents/{{ParentId}}
 Accept: application/json
 
 ###
 
-POST {{Possari.Web_HostAddress}}/parents
+POST {{Possari.WebApi_HostAddress}}/parents
 Accept: application/json
 Content-Type: application/json
 
@@ -26,7 +26,7 @@ Content-Type: application/json
 
 ###
 
-PATCH {{Possari.Web_HostAddress}}/parents/{{ParentId}}
+PATCH {{Possari.WebApi_HostAddress}}/parents/{{ParentId}}
 Accept: application/json
 Content-Type: application/json
 

@@ -1,24 +1,24 @@
-@Possari.Web_HostAddress = http://localhost:5043
+@Possari.WebApi_HostAddress = http://localhost:5043
 @ChildId = f05b0c78-3399-41b5-aed9-5db1bb6de8fc
 @RewardId = 2160fbfa-9641-47ba-9615-480b5022f799
 @PendingRewardId = f95dcd26-76e2-4217-b9aa-704bf0112692
 
-GET {{Possari.Web_HostAddress}}/children
+GET {{Possari.WebApi_HostAddress}}/children
 Accept: application/json
 
 ###
 
-GET {{Possari.Web_HostAddress}}/children/{{ChildId}}
+GET {{Possari.WebApi_HostAddress}}/children/{{ChildId}}
 Accept: application/json
 
 ###
 
-DELETE {{Possari.Web_HostAddress}}/children/{{ChildId}}
+DELETE {{Possari.WebApi_HostAddress}}/children/{{ChildId}}
 Accept: application/json
 
 ###
 
-POST {{Possari.Web_HostAddress}}/children
+POST {{Possari.WebApi_HostAddress}}/children
 Accept: application/json
 Content-Type: application/json
 
@@ -28,7 +28,7 @@ Content-Type: application/json
 
 ###
 
-PATCH {{Possari.Web_HostAddress}}/children/{{ChildId}}
+PATCH {{Possari.WebApi_HostAddress}}/children/{{ChildId}}
 Accept: application/json
 Content-Type: application/json
 
@@ -38,7 +38,7 @@ Content-Type: application/json
 
 ###
 
-POST {{Possari.Web_HostAddress}}/children/{{ChildId}}/award-tokens
+POST {{Possari.WebApi_HostAddress}}/children/{{ChildId}}/award-tokens
 Accept: application/json
 Content-Type: application/json
 
@@ -48,7 +48,7 @@ Content-Type: application/json
 
 ###
 
-POST {{Possari.Web_HostAddress}}/children/{{ChildId}}/redeem-reward
+POST {{Possari.WebApi_HostAddress}}/children/{{ChildId}}/redeem-reward
 Accept: application/json
 Content-Type: application/json
 
@@ -58,6 +58,6 @@ Content-Type: application/json
 
 ###
 
-PATCH {{Possari.Web_HostAddress}}/children/{{ChildId}}/receive-reward/{{PendingRewardId}}
+PATCH {{Possari.WebApi_HostAddress}}/children/{{ChildId}}/receive-reward/{{PendingRewardId}}
 Accept: application/json
 Content-Type: application/json

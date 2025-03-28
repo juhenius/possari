@@ -8,12 +8,15 @@ A tool for managing children's token balances and reward redemptions.
 git clone https://github.com/juhenius/possari
 cd possari
 dotnet ef database update --project ./src/Possari.Infrastructure --startup-project ./src/Possari.WebApi
-dotnet run --project ./src/Possari.WebApi
+dotnet run --project ./src/Possari.AppHost
 ```
 
-## OpenAPI
+## Usage
 
-[API Docs](http://localhost:5043/scalar/v1) when running the project.
+When running the project
+
+- [Aspire dashboard](https://localhost:17106/)
+- [OpenAPI Docs](https://localhost:7010/scalar/v1)
 
 ## License
 

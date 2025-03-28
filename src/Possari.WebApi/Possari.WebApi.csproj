@@ -8,10 +8,12 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.3" />
     <PackageReference Include="Scalar.AspNetCore" Version="2.0.7" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Possari.ServiceDefaults/Possari.ServiceDefaults.csproj" />
     <ProjectReference Include="..\Possari.Application\Possari.Application.csproj" />
     <ProjectReference Include="..\Possari.Infrastructure\Possari.Infrastructure.csproj" />
     <ProjectReference Include="..\Possari.Presentation\Possari.Presentation.csproj" />
