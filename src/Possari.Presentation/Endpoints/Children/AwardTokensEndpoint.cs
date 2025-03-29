@@ -28,6 +28,8 @@ public static class AwardTokensEndpoint
     })
       .WithName(Name)
       .Produces<ChildResponse>(StatusCodes.Status200OK)
+      .Produces(StatusCodes.Status400BadRequest)
+      .Produces(StatusCodes.Status404NotFound)
       .Produces(StatusCodes.Status500InternalServerError);
 
     return builder;

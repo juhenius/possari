@@ -29,6 +29,8 @@ public static class UpdateParentEndpoint
     })
       .WithName(Name)
       .Produces<ParentResponse>(StatusCodes.Status200OK)
+      .Produces(StatusCodes.Status400BadRequest)
+      .Produces(StatusCodes.Status404NotFound)
       .Produces(StatusCodes.Status500InternalServerError);
 
     return builder;

@@ -27,6 +27,7 @@ public static class DeleteRewardEndpoint
     })
       .WithName(Name)
       .Produces<RewardResponse>(StatusCodes.Status204NoContent)
+      .Produces(StatusCodes.Status404NotFound)
       .Produces(StatusCodes.Status500InternalServerError);
 
     return builder;

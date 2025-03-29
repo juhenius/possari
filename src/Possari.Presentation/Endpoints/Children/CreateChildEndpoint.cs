@@ -32,6 +32,7 @@ public static class CreateChildEndpoint
     })
       .WithName(Name)
       .Produces<ChildResponse>(StatusCodes.Status200OK)
+      .Produces(StatusCodes.Status400BadRequest)
       .Produces(StatusCodes.Status500InternalServerError);
 
     return builder;

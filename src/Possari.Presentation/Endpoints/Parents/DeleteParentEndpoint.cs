@@ -27,6 +27,7 @@ public static class DeleteParentEndpoint
     })
       .WithName(Name)
       .Produces<ParentResponse>(StatusCodes.Status204NoContent)
+      .Produces(StatusCodes.Status404NotFound)
       .Produces(StatusCodes.Status500InternalServerError);
 
     return builder;

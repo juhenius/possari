@@ -27,6 +27,7 @@ public static class DeleteChildEndpoint
     })
       .WithName(Name)
       .Produces<ChildResponse>(StatusCodes.Status204NoContent)
+      .Produces(StatusCodes.Status404NotFound)
       .Produces(StatusCodes.Status500InternalServerError);
 
     return builder;

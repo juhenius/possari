@@ -32,6 +32,7 @@ public static class CreateRewardEndpoint
     })
       .WithName(Name)
       .Produces<RewardResponse>(StatusCodes.Status200OK)
+      .Produces(StatusCodes.Status400BadRequest)
       .Produces(StatusCodes.Status500InternalServerError);
 
     return builder;

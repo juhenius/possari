@@ -29,6 +29,8 @@ public static class RedeemRewardEndpoint
     })
       .WithName(Name)
       .Produces<ChildResponse>(StatusCodes.Status200OK)
+      .Produces(StatusCodes.Status404NotFound)
+      .Produces(StatusCodes.Status409Conflict)
       .Produces(StatusCodes.Status500InternalServerError);
 
     return builder;
