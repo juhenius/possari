@@ -21,7 +21,7 @@ public class CreateRewardCommandHandlerTests
     var command = new CreateRewardCommand(expectedName, expectedTokenCost);
     var handler = new CreateRewardCommandHandler(mockRewardRepository, mockUnitOfWork);
 
-    var result = await handler.Handle(command, CancellationToken.None);
+    var result = await handler.Handle(command, TestContext.Current.CancellationToken);
 
     Assert.NotNull(result.Value);
     Assert.Equal(expectedName, result.Value.Name);
@@ -33,7 +33,7 @@ public class CreateRewardCommandHandlerTests
 
     await mockUnitOfWork
       .Received(1)
-      .CommitChangesAsync();
+      .CommitChangesAsync(Arg.Any<CancellationToken>());
   }
 
   [Fact]
@@ -43,7 +43,7 @@ public class CreateRewardCommandHandlerTests
     var command = new CreateRewardCommand(invalidName, validTokenCost);
     var handler = new CreateRewardCommandHandler(mockRewardRepository, mockUnitOfWork);
 
-    var result = await handler.Handle(command, CancellationToken.None);
+    var result = await handler.Handle(command, TestContext.Current.CancellationToken);
 
     Assert.True(result.IsFailure);
   }
@@ -55,7 +55,7 @@ public class CreateRewardCommandHandlerTests
     var command = new CreateRewardCommand(invalidName, validTokenCost);
     var handler = new CreateRewardCommandHandler(mockRewardRepository, mockUnitOfWork);
 
-    var result = await handler.Handle(command, CancellationToken.None);
+    var result = await handler.Handle(command, TestContext.Current.CancellationToken);
 
     Assert.True(result.IsFailure);
 
@@ -65,7 +65,7 @@ public class CreateRewardCommandHandlerTests
 
     await mockUnitOfWork
       .DidNotReceive()
-      .CommitChangesAsync();
+      .CommitChangesAsync(Arg.Any<CancellationToken>());
   }
 
   [Fact]
@@ -81,7 +81,7 @@ public class CreateRewardCommandHandlerTests
 
     var exception = await Assert.ThrowsAsync<Exception>(() =>
     {
-      return handler.Handle(command, CancellationToken.None);
+      return handler.Handle(command, TestContext.Current.CancellationToken);
     });
 
     Assert.Equal(expectedError, exception.Message);
@@ -95,12 +95,12 @@ public class CreateRewardCommandHandlerTests
     var handler = new CreateRewardCommandHandler(mockRewardRepository, mockUnitOfWork);
 
     mockUnitOfWork
-      .CommitChangesAsync()
+      .CommitChangesAsync(Arg.Any<CancellationToken>())
       .ThrowsAsync(new Exception(expectedError));
 
     var exception = await Assert.ThrowsAsync<Exception>(() =>
     {
-      return handler.Handle(command, CancellationToken.None);
+      return handler.Handle(command, TestContext.Current.CancellationToken);
     });
 
     Assert.Equal(expectedError, exception.Message);

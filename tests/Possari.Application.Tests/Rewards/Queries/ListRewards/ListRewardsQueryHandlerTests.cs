@@ -19,7 +19,7 @@ public class ListRewardsQueryHandlerTests
       .ListAsync()
       .Returns([]);
 
-    var result = await handler.Handle(command, CancellationToken.None);
+    var result = await handler.Handle(command, TestContext.Current.CancellationToken);
 
     Assert.Empty(result.Value);
   }
@@ -35,7 +35,7 @@ public class ListRewardsQueryHandlerTests
       .ListAsync()
       .Returns(rewards);
 
-    var result = await handler.Handle(command, CancellationToken.None);
+    var result = await handler.Handle(command, TestContext.Current.CancellationToken);
 
     Assert.Equal(rewards.Count, result.Value.Count);
     Assert.Equivalent(rewards, result.Value);
@@ -54,7 +54,7 @@ public class ListRewardsQueryHandlerTests
 
     var exception = await Assert.ThrowsAsync<Exception>(() =>
     {
-      return handler.Handle(command, CancellationToken.None);
+      return handler.Handle(command, TestContext.Current.CancellationToken);
     });
 
     Assert.Equal(expectedError, exception.Message);

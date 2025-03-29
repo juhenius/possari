@@ -22,7 +22,7 @@ public class DeleteChildCommandHandlerTests
       .GetByIdAsync(childId)
       .Returns((Child?)null);
 
-    var result = await handler.Handle(command, CancellationToken.None);
+    var result = await handler.Handle(command, TestContext.Current.CancellationToken);
 
     Assert.True(result.IsFailure);
     Assert.Equal(ChildErrors.NotFound(childId).Code, result.Error.Code);
@@ -39,7 +39,7 @@ public class DeleteChildCommandHandlerTests
       .GetByIdAsync(child.Id)
       .Returns(child);
 
-    var result = await handler.Handle(command, CancellationToken.None);
+    var result = await handler.Handle(command, TestContext.Current.CancellationToken);
 
     Assert.True(result.IsSuccess);
 
@@ -49,7 +49,7 @@ public class DeleteChildCommandHandlerTests
 
     await mockUnitOfWork
       .Received(1)
-      .CommitChangesAsync();
+      .CommitChangesAsync(Arg.Any<CancellationToken>());
   }
 
   [Fact]
@@ -70,7 +70,7 @@ public class DeleteChildCommandHandlerTests
 
     var exception = await Assert.ThrowsAsync<Exception>(() =>
     {
-      return handler.Handle(command, CancellationToken.None);
+      return handler.Handle(command, TestContext.Current.CancellationToken);
     });
 
     Assert.Equal(expectedError, exception.Message);
@@ -89,12 +89,12 @@ public class DeleteChildCommandHandlerTests
       .Returns(child);
 
     mockUnitOfWork
-      .CommitChangesAsync()
+      .CommitChangesAsync(Arg.Any<CancellationToken>())
       .ThrowsAsync(new Exception(expectedError));
 
     var exception = await Assert.ThrowsAsync<Exception>(() =>
     {
-      return handler.Handle(command, CancellationToken.None);
+      return handler.Handle(command, TestContext.Current.CancellationToken);
     });
 
     Assert.Equal(expectedError, exception.Message);

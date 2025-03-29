@@ -19,7 +19,7 @@ public class CreateChildCommandHandlerTests
     var command = new CreateChildCommand(expectedName);
     var handler = new CreateChildCommandHandler(mockChildRepository, mockUnitOfWork);
 
-    var result = await handler.Handle(command, CancellationToken.None);
+    var result = await handler.Handle(command, TestContext.Current.CancellationToken);
 
     Assert.NotNull(result.Value);
     Assert.Equal(expectedName, result.Value.Name);
@@ -30,7 +30,7 @@ public class CreateChildCommandHandlerTests
 
     await mockUnitOfWork
       .Received(1)
-      .CommitChangesAsync();
+      .CommitChangesAsync(Arg.Any<CancellationToken>());
   }
 
   [Fact]
@@ -40,7 +40,7 @@ public class CreateChildCommandHandlerTests
     var command = new CreateChildCommand(invalidName);
     var handler = new CreateChildCommandHandler(mockChildRepository, mockUnitOfWork);
 
-    var result = await handler.Handle(command, CancellationToken.None);
+    var result = await handler.Handle(command, TestContext.Current.CancellationToken);
 
     Assert.True(result.IsFailure);
   }
@@ -52,7 +52,7 @@ public class CreateChildCommandHandlerTests
     var command = new CreateChildCommand(invalidName);
     var handler = new CreateChildCommandHandler(mockChildRepository, mockUnitOfWork);
 
-    var result = await handler.Handle(command, CancellationToken.None);
+    var result = await handler.Handle(command, TestContext.Current.CancellationToken);
 
     Assert.True(result.IsFailure);
 
@@ -62,7 +62,7 @@ public class CreateChildCommandHandlerTests
 
     await mockUnitOfWork
       .DidNotReceive()
-      .CommitChangesAsync();
+      .CommitChangesAsync(Arg.Any<CancellationToken>());
   }
 
   [Fact]
@@ -78,7 +78,7 @@ public class CreateChildCommandHandlerTests
 
     var exception = await Assert.ThrowsAsync<Exception>(() =>
     {
-      return handler.Handle(command, CancellationToken.None);
+      return handler.Handle(command, TestContext.Current.CancellationToken);
     });
 
     Assert.Equal(expectedError, exception.Message);
@@ -92,12 +92,12 @@ public class CreateChildCommandHandlerTests
     var handler = new CreateChildCommandHandler(mockChildRepository, mockUnitOfWork);
 
     mockUnitOfWork
-      .CommitChangesAsync()
+      .CommitChangesAsync(Arg.Any<CancellationToken>())
       .ThrowsAsync(new Exception(expectedError));
 
     var exception = await Assert.ThrowsAsync<Exception>(() =>
     {
-      return handler.Handle(command, CancellationToken.None);
+      return handler.Handle(command, TestContext.Current.CancellationToken);
     });
 
     Assert.Equal(expectedError, exception.Message);

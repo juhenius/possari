@@ -21,7 +21,7 @@ public class GetChildQueryHandlerTests
       .GetByIdAsync(childId)
       .Returns((Child?)null);
 
-    var result = await handler.Handle(command, CancellationToken.None);
+    var result = await handler.Handle(command, TestContext.Current.CancellationToken);
 
     Assert.True(result.IsFailure);
     Assert.Equal(ChildErrors.NotFound(childId).Code, result.Error.Code);
@@ -38,7 +38,7 @@ public class GetChildQueryHandlerTests
       .GetByIdAsync(child.Id)
       .Returns(child);
 
-    var result = await handler.Handle(command, CancellationToken.None);
+    var result = await handler.Handle(command, TestContext.Current.CancellationToken);
 
     Assert.Equal(child.Id, result.Value.Id);
 
@@ -61,7 +61,7 @@ public class GetChildQueryHandlerTests
 
     var exception = await Assert.ThrowsAsync<Exception>(() =>
     {
-      return handler.Handle(command, CancellationToken.None);
+      return handler.Handle(command, TestContext.Current.CancellationToken);
     });
 
     Assert.Equal(expectedError, exception.Message);

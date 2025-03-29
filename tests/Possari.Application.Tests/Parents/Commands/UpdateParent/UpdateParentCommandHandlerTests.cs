@@ -23,7 +23,7 @@ public class UpdateParentCommandHandlerTests
       .GetByIdAsync(parentId)
       .Returns((Parent?)null);
 
-    var result = await handler.Handle(command, CancellationToken.None);
+    var result = await handler.Handle(command, TestContext.Current.CancellationToken);
 
     Assert.True(result.IsFailure);
     Assert.Equal(ParentErrors.NotFound(parentId).Code, result.Error.Code);
@@ -41,7 +41,7 @@ public class UpdateParentCommandHandlerTests
       .GetByIdAsync(parent.Id)
       .Returns(parent);
 
-    var result = await handler.Handle(command, CancellationToken.None);
+    var result = await handler.Handle(command, TestContext.Current.CancellationToken);
 
     Assert.True(result.IsSuccess);
     Assert.Equal(expectedName, result.Value.Name);
@@ -52,7 +52,7 @@ public class UpdateParentCommandHandlerTests
 
     await mockUnitOfWork
       .Received(1)
-      .CommitChangesAsync();
+      .CommitChangesAsync(Arg.Any<CancellationToken>());
   }
 
   [Fact]
@@ -67,7 +67,7 @@ public class UpdateParentCommandHandlerTests
       .GetByIdAsync(parent.Id)
       .Returns(parent);
 
-    var result = await handler.Handle(command, CancellationToken.None);
+    var result = await handler.Handle(command, TestContext.Current.CancellationToken);
 
     Assert.True(result.IsFailure);
     Assert.Equal(ParentErrors.NameNullOrEmpty.Code, result.Error.Code);
@@ -85,7 +85,7 @@ public class UpdateParentCommandHandlerTests
       .GetByIdAsync(parent.Id)
       .Returns(parent);
 
-    var result = await handler.Handle(command, CancellationToken.None);
+    var result = await handler.Handle(command, TestContext.Current.CancellationToken);
 
     Assert.True(result.IsFailure);
 
@@ -95,7 +95,7 @@ public class UpdateParentCommandHandlerTests
 
     await mockUnitOfWork
       .DidNotReceive()
-      .CommitChangesAsync();
+      .CommitChangesAsync(Arg.Any<CancellationToken>());
   }
 
   [Fact]
@@ -116,7 +116,7 @@ public class UpdateParentCommandHandlerTests
 
     var exception = await Assert.ThrowsAsync<Exception>(() =>
     {
-      return handler.Handle(command, CancellationToken.None);
+      return handler.Handle(command, TestContext.Current.CancellationToken);
     });
 
     Assert.Equal(expectedError, exception.Message);
@@ -135,12 +135,12 @@ public class UpdateParentCommandHandlerTests
       .Returns(parent);
 
     mockUnitOfWork
-      .CommitChangesAsync()
+      .CommitChangesAsync(Arg.Any<CancellationToken>())
       .ThrowsAsync(new Exception(expectedError));
 
     var exception = await Assert.ThrowsAsync<Exception>(() =>
     {
-      return handler.Handle(command, CancellationToken.None);
+      return handler.Handle(command, TestContext.Current.CancellationToken);
     });
 
     Assert.Equal(expectedError, exception.Message);

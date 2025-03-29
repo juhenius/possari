@@ -24,7 +24,7 @@ public class UpdateRewardCommandHandlerTests
       .GetByIdAsync(rewardId)
       .Returns((Reward?)null);
 
-    var result = await handler.Handle(command, CancellationToken.None);
+    var result = await handler.Handle(command, TestContext.Current.CancellationToken);
 
     Assert.True(result.IsFailure);
     Assert.Equal(RewardErrors.NotFound(rewardId).Code, result.Error.Code);
@@ -43,7 +43,7 @@ public class UpdateRewardCommandHandlerTests
       .GetByIdAsync(reward.Id)
       .Returns(reward);
 
-    var result = await handler.Handle(command, CancellationToken.None);
+    var result = await handler.Handle(command, TestContext.Current.CancellationToken);
 
     Assert.True(result.IsSuccess);
     Assert.Equal(expectedName, result.Value.Name);
@@ -55,7 +55,7 @@ public class UpdateRewardCommandHandlerTests
 
     await mockUnitOfWork
       .Received(1)
-      .CommitChangesAsync();
+      .CommitChangesAsync(Arg.Any<CancellationToken>());
   }
 
   [Fact]
@@ -70,7 +70,7 @@ public class UpdateRewardCommandHandlerTests
       .GetByIdAsync(reward.Id)
       .Returns(reward);
 
-    var result = await handler.Handle(command, CancellationToken.None);
+    var result = await handler.Handle(command, TestContext.Current.CancellationToken);
 
     Assert.True(result.IsFailure);
     Assert.Equal(RewardErrors.NameNullOrEmpty.Code, result.Error.Code);
@@ -88,7 +88,7 @@ public class UpdateRewardCommandHandlerTests
       .GetByIdAsync(reward.Id)
       .Returns(reward);
 
-    var result = await handler.Handle(command, CancellationToken.None);
+    var result = await handler.Handle(command, TestContext.Current.CancellationToken);
 
     Assert.True(result.IsFailure);
     Assert.Equal(RewardErrors.TokenCostTooLow.Code, result.Error.Code);
@@ -106,7 +106,7 @@ public class UpdateRewardCommandHandlerTests
       .GetByIdAsync(reward.Id)
       .Returns(reward);
 
-    var result = await handler.Handle(command, CancellationToken.None);
+    var result = await handler.Handle(command, TestContext.Current.CancellationToken);
 
     Assert.True(result.IsFailure);
 
@@ -116,7 +116,7 @@ public class UpdateRewardCommandHandlerTests
 
     await mockUnitOfWork
       .DidNotReceive()
-      .CommitChangesAsync();
+      .CommitChangesAsync(Arg.Any<CancellationToken>());
   }
 
   [Fact]
@@ -137,7 +137,7 @@ public class UpdateRewardCommandHandlerTests
 
     var exception = await Assert.ThrowsAsync<Exception>(() =>
     {
-      return handler.Handle(command, CancellationToken.None);
+      return handler.Handle(command, TestContext.Current.CancellationToken);
     });
 
     Assert.Equal(expectedError, exception.Message);
@@ -156,12 +156,12 @@ public class UpdateRewardCommandHandlerTests
       .Returns(reward);
 
     mockUnitOfWork
-      .CommitChangesAsync()
+      .CommitChangesAsync(Arg.Any<CancellationToken>())
       .ThrowsAsync(new Exception(expectedError));
 
     var exception = await Assert.ThrowsAsync<Exception>(() =>
     {
-      return handler.Handle(command, CancellationToken.None);
+      return handler.Handle(command, TestContext.Current.CancellationToken);
     });
 
     Assert.Equal(expectedError, exception.Message);

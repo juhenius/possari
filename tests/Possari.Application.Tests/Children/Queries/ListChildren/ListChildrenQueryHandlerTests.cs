@@ -19,7 +19,7 @@ public class ListChildrenQueryHandlerTests
       .ListAsync()
       .Returns([]);
 
-    var result = await handler.Handle(command, CancellationToken.None);
+    var result = await handler.Handle(command, TestContext.Current.CancellationToken);
 
     Assert.Empty(result.Value);
   }
@@ -35,7 +35,7 @@ public class ListChildrenQueryHandlerTests
       .ListAsync()
       .Returns(children);
 
-    var result = await handler.Handle(command, CancellationToken.None);
+    var result = await handler.Handle(command, TestContext.Current.CancellationToken);
 
     Assert.Equal(children.Count, result.Value.Count);
     Assert.Equivalent(children, result.Value);
@@ -54,7 +54,7 @@ public class ListChildrenQueryHandlerTests
 
     var exception = await Assert.ThrowsAsync<Exception>(() =>
     {
-      return handler.Handle(command, CancellationToken.None);
+      return handler.Handle(command, TestContext.Current.CancellationToken);
     });
 
     Assert.Equal(expectedError, exception.Message);
