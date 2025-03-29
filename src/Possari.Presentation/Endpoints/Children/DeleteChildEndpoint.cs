@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Possari.Application.Children.Commands.DeleteChild;
-using Possari.Contracts.Children;
 using Possari.Presentation.Common;
 
 namespace Possari.Presentation.Endpoints.Children;
@@ -26,7 +25,7 @@ public static class DeleteChildEndpoint
       return result.ToHttpResult(Results.NoContent);
     })
       .WithName(Name)
-      .Produces<ChildResponse>(StatusCodes.Status204NoContent)
+      .Produces(StatusCodes.Status204NoContent)
       .Produces(StatusCodes.Status404NotFound)
       .Produces(StatusCodes.Status500InternalServerError);
 

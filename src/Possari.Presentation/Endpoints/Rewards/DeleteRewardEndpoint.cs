@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Possari.Application.Rewards.Commands.DeleteReward;
-using Possari.Contracts.Rewards;
 using Possari.Presentation.Common;
 
 namespace Possari.Presentation.Endpoints.Rewards;
@@ -26,7 +25,7 @@ public static class DeleteRewardEndpoint
       return result.ToHttpResult(Results.NoContent);
     })
       .WithName(Name)
-      .Produces<RewardResponse>(StatusCodes.Status204NoContent)
+      .Produces(StatusCodes.Status204NoContent)
       .Produces(StatusCodes.Status404NotFound)
       .Produces(StatusCodes.Status500InternalServerError);
 
